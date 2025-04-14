@@ -15,6 +15,7 @@ const int I2C_SDA_GPIO = 20;
 const int I2C_SCL_GPIO = 21;
 
 void i2c_task(void *p) {
+
     i2c_init(i2c_default, 400 * 1000);
     gpio_set_function(I2C_SDA_GPIO, GPIO_FUNC_I2C);
     gpio_set_function(I2C_SCL_GPIO, GPIO_FUNC_I2C);
@@ -30,6 +31,9 @@ void i2c_task(void *p) {
 
     // TODO
     // Configure o acc para operar em 4G
+
+    uint8_t accel_config[] = {0x1C, 0x08};
+    i2c_write_blocking(i2c_default, I2C_CHIP_ADDRESS, accel_config, 2, false);
 
     while (1) {
         vTaskDelay(pdMS_TO_TICKS(200));
